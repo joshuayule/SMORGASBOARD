@@ -66,8 +66,8 @@ const LogoIcon = ({ size = 24, className = "" }: { size?: number, className?: st
 );
 
 export default function App() {
-  const [baseColor, setBaseColor] = useState('#6366f1');
-  const [rule, setRule] = useState<ColorTheoryRule>('complementary');
+  const [baseColor, setBaseColor] = useState('#4f46e5');
+  const [rule, setRule] = useState<ColorTheoryRule>('design-system');
   const [palette, setPalette] = useState<PaletteColor[]>([]);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [isAgentModalOpen, setIsAgentModalOpen] = useState(false);
@@ -77,8 +77,8 @@ export default function App() {
   const [prompt, setPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'palette' | 'preview' | 'wheel' | 'system'>('palette');
-  const [isAiExpanded, setIsAiExpanded] = useState(true);
+  const [viewMode, setViewMode] = useState<'palette' | 'preview' | 'wheel' | 'system'>('system');
+  const [isAiExpanded, setIsAiExpanded] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Initialize palette
@@ -503,29 +503,63 @@ export default function App() {
                       <Layout size={14} className="text-gray-400" />
                       <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Component Preview</span>
                     </div>
-                    <div className="p-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
-                      <div className="space-y-4">
-                        <div className="aspect-video rounded-none shadow-none border border-zinc-800" style={{ backgroundColor: getColorByRole('Secondary') }} />
-                        <div className="space-y-2">
+                    <div className="p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                      <div className={`p-5 border border-zinc-800 ${isDarkMode ? 'bg-[#0a0a0a]' : 'bg-gray-50'} flex flex-col h-full`}>
+                        <div className="aspect-video rounded-none shadow-none border border-zinc-800 mb-4" style={{ backgroundColor: getColorByRole('Secondary') }} />
+                        <div className="space-y-2 mb-6 flex-1">
                           <div className="h-4 w-3/4 rounded-none" style={{ backgroundColor: getColorByRole('Primary') + '20' }} />
-                          <div className={`h-3 w-full rounded-none ${isDarkMode ? 'bg-zinc-800' : 'bg-gray-100'}`} />
-                          <div className={`h-3 w-1/2 rounded-none ${isDarkMode ? 'bg-zinc-800' : 'bg-gray-100'}`} />
+                          <div className={`h-2.5 w-full rounded-none ${isDarkMode ? 'bg-zinc-800' : 'bg-gray-200'}`} />
+                          <div className={`h-2.5 w-1/2 rounded-none ${isDarkMode ? 'bg-zinc-800' : 'bg-gray-200'}`} />
                         </div>
-                        <button className="w-full py-2 rounded-none text-xs font-bold text-white shadow-none" style={{ backgroundColor: getColorByRole('Primary') }}>
+                        <button className="w-full py-2.5 rounded-none text-[10px] font-bold uppercase tracking-widest text-white shadow-none border border-zinc-800" style={{ backgroundColor: getColorByRole('Primary') }}>
                           Action
                         </button>
                       </div>
-                      <div className={`${isDarkMode ? 'bg-[#0a0a0a]' : 'bg-gray-50'} rounded-none p-6 border border-dashed border-zinc-800 flex flex-col justify-center items-center text-center space-y-4`}>
-                        <div className="w-16 h-16 rounded-none flex items-center justify-center border border-zinc-800" style={{ backgroundColor: getColorByRole('Background') + '20' }}>
-                          <Sparkles size={32} style={{ color: getColorByRole('Background') }} />
+
+                      <div className={`${isDarkMode ? 'bg-[#0a0a0a]' : 'bg-gray-50'} p-5 border border-zinc-800 flex flex-col items-center text-center h-full`}>
+                        <div className="w-12 h-12 rounded-none flex items-center justify-center border border-zinc-800 mb-4 mt-2" style={{ backgroundColor: getColorByRole('Background') + '20' }}>
+                          <Sparkles size={24} style={{ color: getColorByRole('Background') }} />
                         </div>
-                        <div className="space-y-1">
-                          <h5 className={`font-bold ${isDarkMode ? 'text-white' : 'text-zinc-900'}`} style={{ color: getColorByRole('Primary') }}>Unlock Premium Features</h5>
-                          <p className="text-xs text-gray-500">Get access to exclusive color sets and advanced design tools.</p>
+                        <div className="space-y-1 mb-6 flex-1">
+                          <h5 className={`text-xs font-bold uppercase tracking-tight ${isDarkMode ? 'text-white' : 'text-zinc-900'}`} style={{ color: getColorByRole('Primary') }}>Premium Access</h5>
+                          <p className="text-[10px] text-gray-500 leading-tight">Get exclusive color sets and advanced tools.</p>
                         </div>
-                        <button className="px-8 py-2 rounded-none text-xs font-bold text-white shadow-none border border-zinc-800" style={{ backgroundColor: getColorByRole('Secondary') }}>
+                        <button className="w-full py-2.5 rounded-none text-[10px] font-bold uppercase tracking-widest text-white shadow-none border border-zinc-800" style={{ backgroundColor: getColorByRole('Secondary') }}>
                           Upgrade Now
                         </button>
+                      </div>
+
+                      <div className={`p-5 border border-zinc-800 ${isDarkMode ? 'bg-[#0a0a0a]' : 'bg-gray-50'} flex flex-col h-full space-y-4`}>
+                        <div className="flex items-center justify-between">
+                          <span className={`text-[10px] font-bold uppercase tracking-widest ${isDarkMode ? 'text-white' : 'text-zinc-900'}`}>Project Status</span>
+                          <div className="px-2 py-0.5 text-[8px] font-bold uppercase tracking-tighter text-white" style={{ backgroundColor: getColorByRole('Accent') }}>Active</div>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-end">
+                            <span className="text-[9px] text-gray-500 uppercase font-medium">Progress</span>
+                            <span className={`text-[10px] font-bold ${isDarkMode ? 'text-white' : 'text-zinc-900'}`}>74%</span>
+                          </div>
+                          <div className={`h-1.5 w-full rounded-none ${isDarkMode ? 'bg-zinc-800' : 'bg-gray-200'} overflow-hidden`}>
+                            <div className="h-full" style={{ width: '74%', backgroundColor: getColorByRole('Primary') }} />
+                          </div>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2 pt-2">
+                          <div className="px-2 py-1 text-[8px] font-bold border border-zinc-800" style={{ color: getColorByRole('Primary'), backgroundColor: getColorByRole('Primary') + '10' }}>DESIGN</div>
+                          <div className="px-2 py-1 text-[8px] font-bold border border-zinc-800" style={{ color: getColorByRole('Secondary'), backgroundColor: getColorByRole('Secondary') + '10' }}>SYSTEM</div>
+                          <div className="px-2 py-1 text-[8px] font-bold border border-zinc-800" style={{ color: getColorByRole('Accent'), backgroundColor: getColorByRole('Accent') + '10' }}>UI/UX</div>
+                        </div>
+
+                        <div className="flex-1" />
+                        
+                        <div className="pt-4 border-t border-zinc-800/50 flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-none border border-zinc-800 shrink-0" style={{ backgroundColor: getColorByRole('Surface') }} />
+                          <div className="flex-1 space-y-1">
+                            <div className="h-1.5 w-1/2 rounded-none" style={{ backgroundColor: getColorByRole('Primary') + '40' }} />
+                            <div className={`h-1 w-full rounded-none ${isDarkMode ? 'bg-zinc-800' : 'bg-gray-200'}`} />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

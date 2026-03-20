@@ -125,7 +125,7 @@ export const AccessibilityView: React.FC<AccessibilityViewProps> = ({ palette, i
             <h2 className="text-sm font-bold uppercase tracking-widest">Contrast Checker</h2>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Text Color</label>
               <div className="flex gap-2">
@@ -203,7 +203,7 @@ export const AccessibilityView: React.FC<AccessibilityViewProps> = ({ palette, i
               </div>
 
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="p-3 border border-zinc-800 bg-white/5">
                     <div className="text-[9px] font-bold text-gray-500 uppercase mb-2">Normal Text</div>
                     <div className="flex justify-between items-center">
@@ -295,7 +295,13 @@ export const AccessibilityView: React.FC<AccessibilityViewProps> = ({ palette, i
             <div className="space-y-4">
               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Live Preview</div>
               <div 
-                className="p-12 border border-zinc-800 retro-shadow transition-all duration-500 w-full"
+                className="p-6 sm:p-12 border border-zinc-800 retro-shadow transition-all duration-500 w-full cursor-pointer hover:ring-2 hover:ring-current hover:ring-offset-2 group relative"
+                onClick={() => {
+                  const temp = textColor;
+                  setTextColor(bgColor);
+                  setBgColor(temp);
+                }}
+                title="Click to swap colors"
                 style={{ 
                   backgroundColor: bgColor, 
                   color: textColor,
@@ -303,17 +309,17 @@ export const AccessibilityView: React.FC<AccessibilityViewProps> = ({ palette, i
                 }}
               >
                 <div className="max-w-4xl mx-auto">
-                  <h3 className="text-4xl font-black uppercase tracking-tighter mb-6">Inclusive Design</h3>
-                  <p className="text-lg leading-relaxed mb-8 max-w-2xl">
+                  <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter mb-4 sm:mb-6">Inclusive Design</h3>
+                  <p className="text-sm sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-2xl">
                     This preview demonstrates how your selected text and background colors appear to users with different types of color vision deficiencies. Good design is inclusive by default.
                   </p>
-                  <div className="flex items-center gap-6">
-                    <button className="px-8 py-3 text-sm font-bold uppercase tracking-widest border-2 border-current hover:bg-current hover:text-white transition-all">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                    <button className="w-full sm:w-auto px-8 py-3 text-sm font-bold uppercase tracking-widest border-2 border-current hover:bg-current hover:text-white transition-all">
                       Primary Action
                     </button>
-                    <div className="flex -space-x-3">
+                    <div className="flex w-full sm:w-auto -space-x-1 sm:-space-x-3 overflow-x-auto pb-2 sm:pb-0">
                       {palette.map((c, i) => (
-                        <div key={i} className="w-12 h-12 rounded-none border-2 border-current" style={{ backgroundColor: c.hex }} />
+                        <div key={i} className="flex-1 sm:flex-none min-w-[40px] sm:w-12 h-10 sm:h-12 shrink-0 sm:shrink-0 rounded-none border-2 border-current" style={{ backgroundColor: c.hex }} />
                       ))}
                     </div>
                   </div>
@@ -332,11 +338,11 @@ export const AccessibilityView: React.FC<AccessibilityViewProps> = ({ palette, i
               </div>
               <div className="p-6 border border-zinc-800 bg-white/5" style={{ filter: simulationFilters[simulation] }}>
                 <div className="text-[10px] font-bold text-gray-500 uppercase mb-4 tracking-widest">UI Elements</div>
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 rounded-none border border-black/10" style={{ backgroundColor: palette[0]?.hex }} />
-                  <div className="w-12 h-12 rounded-none border border-black/10" style={{ backgroundColor: palette[1]?.hex }} />
-                  <div className="w-12 h-12 rounded-none border border-black/10" style={{ backgroundColor: palette[2]?.hex }} />
-                  <div className="w-12 h-12 rounded-none border border-black/10" style={{ backgroundColor: palette[3]?.hex }} />
+                <div className="flex h-16 w-full">
+                  <div className="flex-1 h-full border-r border-black/10" style={{ backgroundColor: palette[0]?.hex }} />
+                  <div className="flex-1 h-full border-r border-black/10" style={{ backgroundColor: palette[1]?.hex }} />
+                  <div className="flex-1 h-full border-r border-black/10" style={{ backgroundColor: palette[2]?.hex }} />
+                  <div className="flex-1 h-full border-black/10" style={{ backgroundColor: palette[3]?.hex }} />
                 </div>
               </div>
             </div>
