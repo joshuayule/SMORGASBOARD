@@ -27,7 +27,8 @@ import {
   Moon,
   Disc,
   Settings,
-  Download
+  Download,
+  Upload
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Color from 'color';
@@ -44,6 +45,7 @@ import { ColorWheelView } from './components/ColorWheelView';
 import { AccessibilityView } from './components/AccessibilityView';
 import { ColorSwatch } from './components/ColorSwatch';
 import { ExportModal } from './components/ExportModal';
+import { ImageColorPicker } from './components/ImageColorPicker';
 
 const RULES: { id: ColorTheoryRule; name: string; description: string }[] = [
   { id: 'design-system', name: 'Design System', description: 'One Color → Full Design System. Generates 10 essential UI colors.' },
@@ -77,7 +79,7 @@ export default function App() {
   const [prompt, setPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'palette' | 'preview' | 'wheel' | 'system'>('system');
+  const [viewMode, setViewMode] = useState<'palette' | 'preview' | 'wheel' | 'system' | 'image'>('system');
   const [isAiExpanded, setIsAiExpanded] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -251,7 +253,7 @@ export default function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
+      <main className={`max-w-7xl mx-auto p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch`}>
         {/* AI Assistant Section */}
         <section className={`lg:col-span-12 ${isDarkMode ? 'bg-[#111111]' : 'bg-white'} p-3 sm:p-4 rounded-none border border-zinc-800 retro-shadow space-y-3`}>
           <div className="flex flex-row items-center justify-between gap-2 sm:gap-4">
@@ -367,6 +369,17 @@ export default function App() {
                 >
                   <Settings size={16} />
                   System
+                </button>
+                <button 
+                  onClick={() => setViewMode('image')}
+                  className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-none text-sm font-bold transition-all ${
+                    viewMode === 'image' 
+                      ? (isDarkMode ? 'bg-zinc-100 text-zinc-900' : 'bg-zinc-900 text-white') 
+                      : 'text-gray-500 hover:bg-gray-50 dark:hover:bg-zinc-800'
+                  }`}
+                >
+                  <Upload size={16} />
+                  Image
                 </button>
               </div>
               <button 
@@ -588,6 +601,22 @@ export default function App() {
                   className="flex-1"
                 >
                   <AccessibilityView palette={palette} isDarkMode={isDarkMode} />
+                </motion.div>
+              ) : viewMode === 'image' ? (
+                <motion.div
+                  key="image-view"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="flex-1"
+                >
+                  <ImageColorPicker 
+                    isDarkMode={isDarkMode} 
+                    onColorsExtracted={(colors) => {
+                      setBaseColor(colors[0]);
+                      // Optionally update the whole palette if needed
+                    }}
+                  />
                 </motion.div>
               ) : null}
             </AnimatePresence>
